@@ -5,6 +5,7 @@ import ThreadsSidebar from "@/components/ThreadsSidebar";
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 import { toast } from "sonner";
+import { Link } from "react-router-dom";
 
 // Sample data structure for our entries
 export type LogEntry = {
@@ -144,16 +145,24 @@ const Index = () => {
           </div>
         </div>
         
-        {activeFilter && (
-          <Button 
-            variant="outline" 
-            size="sm" 
-            onClick={clearFilter}
-            className="text-xs"
-          >
-            Clear Filter: {activeFilter}
-          </Button>
-        )}
+        <div className="flex items-center space-x-2">
+          {activeFilter && (
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={clearFilter}
+              className="text-xs"
+            >
+              Clear Filter: {activeFilter}
+            </Button>
+          )}
+          
+          <Link to="/schemas">
+            <Button variant="outline" size="sm" className="text-xs">
+              Schema Explorer
+            </Button>
+          </Link>
+        </div>
       </header>
       
       <div className="flex flex-1 overflow-hidden">
