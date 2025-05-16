@@ -1,9 +1,9 @@
 
-import { useState } from "react";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LogEntry } from "@/types/LogEntry";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import EntryItem from "./ThreadsSidebar/EntryItem";
 import ThreadItem from "./ThreadsSidebar/ThreadItem";
+import { useSidebarState } from "@/hooks/useSidebarState";
 
 interface ThreadsSidebarProps {
   isOpen: boolean;
@@ -24,18 +24,7 @@ const ThreadsSidebar = ({
   onThreadSelect,
   activeFilter
 }: ThreadsSidebarProps) => {
-  const [activeTab, setActiveTab] = useState<string>("entries");
-  const [expandedThreads, setExpandedThreads] = useState<Set<string>>(new Set());
-
-  const toggleThread = (thread: string) => {
-    const newExpanded = new Set(expandedThreads);
-    if (newExpanded.has(thread)) {
-      newExpanded.delete(thread);
-    } else {
-      newExpanded.add(thread);
-    }
-    setExpandedThreads(newExpanded);
-  };
+  const { activeTab, setActiveTab, expandedThreads, toggleThread } = useSidebarState();
 
   return (
     <aside 

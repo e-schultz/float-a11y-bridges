@@ -5,14 +5,14 @@ import { CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { formatDate } from "@/lib/utils";
-import { useState } from "react";
+import { useLogTabs } from "@/hooks/useLogTabs";
 
 interface LogContentProps {
   entry: LogEntry;
 }
 
 const LogContent = ({ entry }: LogContentProps) => {
-  const [activeTab, setActiveTab] = useState<"content" | "threads" | "context">("content");
+  const { activeTab, handleTabChange } = useLogTabs();
 
   return (
     <CardContent className="space-y-6">
@@ -46,7 +46,7 @@ const LogContent = ({ entry }: LogContentProps) => {
           <Button 
             variant={activeTab === "content" ? "default" : "outline"} 
             size="sm" 
-            onClick={() => setActiveTab("content")}
+            onClick={() => handleTabChange("content")}
             className="text-xs"
           >
             Content
@@ -54,7 +54,7 @@ const LogContent = ({ entry }: LogContentProps) => {
           <Button 
             variant={activeTab === "threads" ? "default" : "outline"} 
             size="sm" 
-            onClick={() => setActiveTab("threads")}
+            onClick={() => handleTabChange("threads")}
             className="text-xs"
           >
             Active Threads
@@ -62,7 +62,7 @@ const LogContent = ({ entry }: LogContentProps) => {
           <Button 
             variant={activeTab === "context" ? "default" : "outline"} 
             size="sm" 
-            onClick={() => setActiveTab("context")}
+            onClick={() => handleTabChange("context")}
             className="text-xs"
           >
             Context

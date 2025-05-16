@@ -1,5 +1,4 @@
 
-import { useState } from "react";
 import LogViewer from "@/components/LogViewer";
 import ThreadsSidebar from "@/components/ThreadsSidebar";
 import { Button } from "@/components/ui/button";
@@ -7,6 +6,7 @@ import { Menu } from "lucide-react";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import { useLogEntries } from "@/hooks/useLogEntries";
+import { useSidebarState } from "@/hooks/useSidebarState";
 import { LogEntry } from "@/types/LogEntry";
 
 const Index = () => {
@@ -22,12 +22,12 @@ const Index = () => {
     navigateToNext
   } = useLogEntries();
   
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { sidebarOpen, toggleSidebar } = useSidebarState();
 
   const handleEntrySelect = (entry: LogEntry) => {
     setSelectedEntry(entry);
     if (window.innerWidth < 768) {
-      setSidebarOpen(false);
+      toggleSidebar();
     }
     toast(`Viewing: ${entry.title}`);
   };
@@ -45,7 +45,7 @@ const Index = () => {
             variant="ghost" 
             size="icon" 
             className="md:hidden mr-2" 
-            onClick={() => setSidebarOpen(!sidebarOpen)}
+            onClick={toggleSidebar}
           >
             <Menu className="h-5 w-5" />
           </Button>
