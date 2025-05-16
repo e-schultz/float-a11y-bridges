@@ -178,7 +178,11 @@ const Index = () => {
         
         <main className="flex-1 overflow-auto p-4">
           {selectedEntry ? (
-            <LogViewer entry={selectedEntry} />
+            <LogViewer 
+              entry={selectedEntry} 
+              entries={entries}
+              onNavigate={handleEntrySelect}
+            />
           ) : (
             <div className="h-full flex items-center justify-center text-gray-500">
               Select an entry to view details

@@ -13,13 +13,40 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { LogEntry } from "@/pages/Index";
 import { formatDate } from "@/lib/utils";
+import { toast } from "sonner";
 
 interface LogViewerProps {
   entry: LogEntry;
+  entries: LogEntry[];
+  onNavigate: (entry: LogEntry) => void;
 }
 
-const LogViewer = ({ entry }: LogViewerProps) => {
+const LogViewer = ({ entry, entries, onNavigate }: LogViewerProps) => {
   const [activeTab, setActiveTab] = useState<"content" | "threads" | "context">("content");
+
+  const getCurrentIndex = () => {
+    return entries.findIndex(e => e.id === entry.id);
+  };
+
+  const handlePrevious = () => {
+    const currentIndex = getCurrentIndex();
+    if (currentIndex > 0) {
+      onNavigate(entries[currentIndex - 1]);
+      toast.info("Navigated to previous entry");
+    } else {
+      toast.info("You're at the first entry");
+    }
+  };
+
+  const handleNext = () => {
+    const currentIndex = getCurrentIndex();
+    if (currentIndex < entries.length - 1) {
+      onNavigate(entries[currentIndex + 1]);
+      toast.info("Navigated to next entry");
+    } else {
+      toast.info("You're at the last entry");
+    }
+  };
 
   return (
     <div className="w-full max-w-3xl mx-auto">
@@ -140,8 +167,22 @@ const LogViewer = ({ entry }: LogViewerProps) => {
         </CardContent>
         
         <CardFooter className="border-t border-gray-800 pt-4 flex justify-between">
-          <Button variant="outline" size="sm">Previous</Button>
-          <Button variant="outline" size="sm">Next</Button>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={handlePrevious}
+            disabled={getCurrentIndex() === 0}
+          >
+            Previous
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={handleNext}
+            disabled={getCurrentIndex() === entries.length - 1}
+          >
+            Next
+          </Button>
         </CardFooter>
       </Card>
     </div>
