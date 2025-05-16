@@ -6,19 +6,21 @@ All notable changes to the FLOAT Continuity System will be documented in this fi
 ## [Unreleased]
 
 ### Added
-- Implementation plan with comprehensive audit findings
-- Prioritized refactoring tasks based on code audit
-- Detailed changelog structure for tracking progress
+- Created dedicated types directory with LogEntry type definition
+- Added data directory with sample entries moved from components
+- Implemented useLogEntries custom hook for centralized data management
+- Added proper type safety throughout the application
 
 ### Changed
-- Reorganized implementation priorities based on code audit
-- Enhanced future planning based on architectural considerations
-- Added more detailed specifications for component refactoring
+- Refactored Index.tsx to use the new hook-based data management
+- Updated LogViewer and ThreadsSidebar components to use proper typing
+- Improved code organization with better separation of concerns
+- Enhanced state management with custom hook implementation
 
 ### Fixed
-- Identified issues with data management in current implementation
-- Recognized component structure issues to be addressed
-- Noted state management improvements needed
+- Removed data management logic from page components
+- Eliminated prop drilling with centralized state management
+- Improved component structure with better type safety
 
 ## [0.1.0] - Initial Version
 

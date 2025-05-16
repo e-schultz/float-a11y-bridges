@@ -14,7 +14,7 @@ import {
   ChevronUp,
   ArrowRight
 } from "lucide-react";
-import { LogEntry } from "@/pages/Index";
+import { LogEntry } from "@/types/LogEntry";
 import { formatDate } from "@/lib/utils";
 
 interface ThreadsSidebarProps {
