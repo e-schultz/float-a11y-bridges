@@ -10,12 +10,16 @@ All notable changes to the FLOAT Continuity System will be documented in this fi
 - Added data directory with sample entries moved from components
 - Implemented useLogEntries custom hook for centralized data management
 - Added proper type safety throughout the application
+- Created smaller, focused components for LogViewer (LogHeader, LogContent, LogFooter)
+- Added reusable components for ThreadsSidebar (EntryItem, ThreadItem)
+- Improved component composition following single responsibility principle
 
 ### Changed
 - Refactored Index.tsx to use the new hook-based data management
 - Updated LogViewer and ThreadsSidebar components to use proper typing
 - Improved code organization with better separation of concerns
 - Enhanced state management with custom hook implementation
+- Restructured components to follow better composition patterns
 
 ### Fixed
 - Removed data management logic from page components

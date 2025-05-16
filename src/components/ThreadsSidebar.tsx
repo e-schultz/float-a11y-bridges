@@ -1,21 +1,9 @@
 
 import { useState } from "react";
-import { 
-  Card, 
-  CardHeader, 
-  CardTitle,
-  CardContent
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { 
-  ChevronDown, 
-  ChevronUp,
-  ArrowRight
-} from "lucide-react";
 import { LogEntry } from "@/types/LogEntry";
-import { formatDate } from "@/lib/utils";
+import EntryItem from "./ThreadsSidebar/EntryItem";
+import ThreadItem from "./ThreadsSidebar/ThreadItem";
 
 interface ThreadsSidebarProps {
   isOpen: boolean;
@@ -66,47 +54,12 @@ const ThreadsSidebar = ({
         {activeTab === "entries" && (
           <div className="space-y-2">
             {entries.map((entry) => (
-              <Card 
+              <EntryItem
                 key={entry.id}
-                className={`cursor-pointer hover:bg-gray-800 transition-colors ${
-                  selectedEntry?.id === entry.id ? "border-pink-500 bg-gray-800/50" : "border-gray-800"
-                }`}
+                entry={entry}
+                isSelected={selectedEntry?.id === entry.id}
                 onClick={() => onEntrySelect(entry)}
-              >
-                <CardHeader className="p-3">
-                  <CardTitle className="text-sm font-medium flex items-start justify-between">
-                    <div>
-                      <span className="text-gray-400 font-mono text-xs mr-2">{entry.id}</span>
-                      {entry.title}
-                    </div>
-                    <Badge className="ml-2 text-[10px]" variant={entry.type === "bridge" ? "default" : "outline"}>
-                      {entry.type}
-                    </Badge>
-                  </CardTitle>
-                  <p className="text-xs text-gray-400 mt-1">
-                    {formatDate(entry.timestamp)}
-                  </p>
-                </CardHeader>
-                <CardContent className="p-3 pt-0">
-                  <div className="flex flex-wrap gap-1 mb-2">
-                    {entry.contextMarkers.map((marker, index) => (
-                      <Badge 
-                        key={index}
-                        variant="secondary"
-                        className="text-[10px] py-0 px-2 h-5 bg-gray-800 text-gray-300"
-                      >
-                        ctx::{marker}
-                      </Badge>
-                    ))}
-                  </div>
-                  <Badge 
-                    variant="outline"
-                    className="text-[10px] bg-purple-900/30 text-purple-300 border-none"
-                  >
-                    mode: {entry.mode}
-                  </Badge>
-                </CardContent>
-              </Card>
+              />
             ))}
           </div>
         )}
@@ -114,41 +67,15 @@ const ThreadsSidebar = ({
         {activeTab === "threads" && (
           <div className="space-y-2">
             {threads.map((thread) => (
-              <div key={thread} className="border border-gray-800 rounded-md overflow-hidden bg-gray-900">
-                <div 
-                  className={`p-3 cursor-pointer flex items-center justify-between ${
-                    activeFilter === thread ? "bg-gray-800/70" : "bg-gray-900/70"
-                  }`}
-                  onClick={() => toggleThread(thread)}
-                >
-                  <div className="text-sm font-medium">
-                    {thread}
-                  </div>
-                  <Button variant="ghost" size="icon" className="h-5 w-5">
-                    {expandedThreads.has(thread) ? 
-                      <ChevronUp className="h-4 w-4" /> : 
-                      <ChevronDown className="h-4 w-4" />
-                    }
-                  </Button>
-                </div>
-                
-                {expandedThreads.has(thread) && (
-                  <div className="p-3 border-t border-gray-800 text-xs text-gray-400">
-                    <div className="space-y-1">
-                      <p>Thread contains {entries.filter(e => e.activeThreads.includes(thread)).length} entries</p>
-                      <Button 
-                        size="sm" 
-                        variant="ghost" 
-                        className="text-xs h-7 mt-2"
-                        onClick={() => onThreadSelect(thread)}
-                      >
-                        <ArrowRight className="mr-1 h-3 w-3" />
-                        Filter by thread
-                      </Button>
-                    </div>
-                  </div>
-                )}
-              </div>
+              <ThreadItem
+                key={thread}
+                thread={thread}
+                isExpanded={expandedThreads.has(thread)}
+                isActive={activeFilter === thread}
+                entriesCount={entries.filter(e => e.activeThreads.includes(thread)).length}
+                onToggle={() => toggleThread(thread)}
+                onFilterClick={() => onThreadSelect(thread)}
+              />
             ))}
           </div>
         )}
