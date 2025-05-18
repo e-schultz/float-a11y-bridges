@@ -4,6 +4,12 @@ import { CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { LogEntry } from "@/types/LogEntry";
 import { formatDate } from "@/lib/utils";
 
+/**
+ * LogHeader displays the header section of a log entry with title, 
+ * description, and metadata.
+ * 
+ * @param entry - The log entry to display header information for
+ */
 interface LogHeaderProps {
   entry: LogEntry;
 }

@@ -9,6 +9,10 @@ import { useLogEntries } from "@/hooks/useLogEntries";
 import { useSidebarState } from "@/hooks/useSidebarState";
 import { LogEntry } from "@/types/LogEntry";
 
+/**
+ * Index page component displays the main application interface
+ * with a sidebar for navigation and a log viewer for content
+ */
 const Index = () => {
   const {
     entries,
@@ -24,6 +28,9 @@ const Index = () => {
   
   const { sidebarOpen, toggleSidebar } = useSidebarState();
 
+  /**
+   * Handle selecting an entry and optionally close sidebar on mobile
+   */
   const handleEntrySelect = (entry: LogEntry) => {
     setSelectedEntry(entry);
     if (window.innerWidth < 768) {
@@ -32,6 +39,9 @@ const Index = () => {
     toast(`Viewing: ${entry.title}`);
   };
 
+  /**
+   * Handle navigation between entries
+   */
   const handleNavigate = (entry: LogEntry) => {
     setSelectedEntry(entry);
     toast(`Viewing: ${entry.title}`);

@@ -4,7 +4,9 @@ import { LogEntry } from "@/types/LogEntry";
 import { sampleData } from "@/data/sampleEntries";
 
 /**
- * Custom hook for managing log entries
+ * Custom hook for managing log entries, including filtering, selection,
+ * and navigation
+ * 
  * @returns Object containing entries, filtered entries, selected entry, and methods to manipulate them
  */
 export const useLogEntries = () => {
@@ -12,19 +14,27 @@ export const useLogEntries = () => {
   const [selectedEntry, setSelectedEntry] = useState<LogEntry | null>(null);
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
 
-  // Set initial selected entry
+  /**
+   * Set initial selected entry when component mounts
+   */
   useEffect(() => {
     if (entries.length > 0 && !selectedEntry) {
       setSelectedEntry(entries[0]);
     }
   }, [entries, selectedEntry]);
 
-  // Get all unique threads from sample data
+  /**
+   * Get all unique threads from sample data
+   */
   const allThreads = Array.from(
     new Set(sampleData.flatMap(entry => entry.activeThreads))
   );
 
-  // Filter entries by thread
+  /**
+   * Filter entries by thread name
+   * 
+   * @param threadName - The thread name to filter by, or null to clear filter
+   */
   const filterByThread = (threadName: string | null) => {
     setActiveFilter(threadName);
     if (!threadName) {
@@ -42,7 +52,9 @@ export const useLogEntries = () => {
     }
   };
 
-  // Clear thread filter
+  /**
+   * Clear the current thread filter
+   */
   const clearFilter = () => {
     setActiveFilter(null);
     setEntries(sampleData);
@@ -51,12 +63,18 @@ export const useLogEntries = () => {
     }
   };
 
-  // Get current entry index
+  /**
+   * Get the index of the current entry in the entries array
+   */
   const getCurrentIndex = () => {
     return entries.findIndex(e => e.id === selectedEntry?.id);
   };
 
-  // Navigate to previous entry
+  /**
+   * Navigate to the previous entry if available
+   * 
+   * @returns Boolean indicating whether navigation occurred
+   */
   const navigateToPrevious = () => {
     const currentIndex = getCurrentIndex();
     if (currentIndex > 0) {
@@ -66,7 +84,11 @@ export const useLogEntries = () => {
     return false;
   };
 
-  // Navigate to next entry
+  /**
+   * Navigate to the next entry if available
+   * 
+   * @returns Boolean indicating whether navigation occurred
+   */
   const navigateToNext = () => {
     const currentIndex = getCurrentIndex();
     if (currentIndex < entries.length - 1) {

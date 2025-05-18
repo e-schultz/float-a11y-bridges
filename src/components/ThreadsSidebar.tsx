@@ -5,6 +5,18 @@ import EntryItem from "./ThreadsSidebar/EntryItem";
 import ThreadItem from "./ThreadsSidebar/ThreadItem";
 import { useSidebarState } from "@/hooks/useSidebarState";
 
+/**
+ * ThreadsSidebar displays entries and threads for navigation
+ * with tabbed interface and collapsible panels
+ * 
+ * @param isOpen - Whether the sidebar is open/visible
+ * @param entries - List of log entries to display
+ * @param selectedEntry - Currently selected log entry
+ * @param onEntrySelect - Callback function for when an entry is selected
+ * @param threads - List of available threads
+ * @param onThreadSelect - Callback function for filtering by thread
+ * @param activeFilter - Currently active thread filter
+ */
 interface ThreadsSidebarProps {
   isOpen: boolean;
   entries: LogEntry[];

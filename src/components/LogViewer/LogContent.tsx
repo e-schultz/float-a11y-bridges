@@ -7,6 +7,12 @@ import { Button } from "@/components/ui/button";
 import { formatDate } from "@/lib/utils";
 import { useLogTabs } from "@/hooks/useLogTabs";
 
+/**
+ * LogContent displays the main content section of a log entry with
+ * tabbed navigation between content, threads, and context.
+ * 
+ * @param entry - The log entry to display content for
+ */
 interface LogContentProps {
   entry: LogEntry;
 }

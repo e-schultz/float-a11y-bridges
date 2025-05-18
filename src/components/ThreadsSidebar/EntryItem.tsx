@@ -4,6 +4,13 @@ import { Badge } from "@/components/ui/badge";
 import { LogEntry } from "@/types/LogEntry";
 import { formatDate } from "@/lib/utils";
 
+/**
+ * EntryItem displays a summary of a log entry in the sidebar
+ * 
+ * @param entry - The log entry to display
+ * @param isSelected - Whether this entry is currently selected
+ * @param onClick - Callback function for when the entry is clicked
+ */
 interface EntryItemProps {
   entry: LogEntry;
   isSelected: boolean;

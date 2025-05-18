@@ -6,6 +6,14 @@ import LogHeader from "./LogViewer/LogHeader";
 import LogContent from "./LogViewer/LogContent";
 import LogFooter from "./LogViewer/LogFooter";
 
+/**
+ * LogViewer component displays detailed information about a log entry
+ * with navigation controls to move between entries.
+ * 
+ * @param entry - The current log entry to display
+ * @param entries - All available log entries for navigation
+ * @param onNavigate - Callback function for when navigation occurs
+ */
 interface LogViewerProps {
   entry: LogEntry;
   entries: LogEntry[];
@@ -13,10 +21,16 @@ interface LogViewerProps {
 }
 
 const LogViewer = ({ entry, entries, onNavigate }: LogViewerProps) => {
+  /**
+   * Returns the current entry's index in the entries array
+   */
   const getCurrentIndex = () => {
     return entries.findIndex(e => e.id === entry.id);
   };
 
+  /**
+   * Navigate to the previous entry if available
+   */
   const handlePrevious = () => {
     const currentIndex = getCurrentIndex();
     if (currentIndex > 0) {
@@ -27,6 +41,9 @@ const LogViewer = ({ entry, entries, onNavigate }: LogViewerProps) => {
     }
   };
 
+  /**
+   * Navigate to the next entry if available
+   */
   const handleNext = () => {
     const currentIndex = getCurrentIndex();
     if (currentIndex < entries.length - 1) {

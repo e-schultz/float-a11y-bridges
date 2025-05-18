@@ -2,6 +2,14 @@
 import { Button } from "@/components/ui/button";
 import { CardFooter } from "@/components/ui/card";
 
+/**
+ * LogFooter displays navigation controls for moving between log entries
+ * 
+ * @param onPrevious - Callback function for navigating to previous entry
+ * @param onNext - Callback function for navigating to next entry
+ * @param isPreviousDisabled - Whether the previous button should be disabled
+ * @param isNextDisabled - Whether the next button should be disabled
+ */
 interface LogFooterProps {
   onPrevious: () => void;
   onNext: () => void;

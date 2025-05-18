@@ -2,6 +2,17 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ChevronDown, ChevronUp } from "lucide-react";
 
+/**
+ * ThreadItem displays thread information in the sidebar with
+ * collapsible content and filtering capability
+ * 
+ * @param thread - The thread name to display
+ * @param isExpanded - Whether the thread item is expanded
+ * @param isActive - Whether this thread is currently being filtered on
+ * @param entriesCount - Number of entries in this thread
+ * @param onToggle - Callback function for expanding/collapsing
+ * @param onFilterClick - Callback function for filtering by this thread
+ */
 interface ThreadItemProps {
   thread: string;
   isExpanded: boolean;
