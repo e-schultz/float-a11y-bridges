@@ -1,5 +1,6 @@
 
-import { useNavigate } from "react-router-dom";
+import { useParams, Navigate } from "react-router-dom";
+import { useEffect } from "react";
 import LogViewer from "@/components/LogViewer";
 import ThreadsSidebar from "@/components/ThreadsSidebar";
 import { Button } from "@/components/ui/button";
@@ -13,11 +14,11 @@ import Breadcrumb from "@/components/Navigation/Breadcrumb";
 import { generateBreadcrumbs, routes } from "@/routes";
 
 /**
- * Index page component displays the main application interface
- * with a sidebar for navigation and a log viewer for content
+ * EntryDetail page component displays a specific log entry by ID
+ * with navigation options and breadcrumbs
  */
-const Index = () => {
-  const navigate = useNavigate();
+const EntryDetail = () => {
+  const { entryId } = useParams<{ entryId: string }>();
   const {
     entries,
     selectedEntry,
@@ -26,17 +27,33 @@ const Index = () => {
     allThreads,
     filterByThread,
     clearFilter,
+    navigateToPrevious,
+    navigateToNext
   } = useLogEntries();
   
   const { sidebarOpen, toggleSidebar } = useSidebarState();
 
+  // Find the entry with the given ID
+  useEffect(() => {
+    if (entryId) {
+      const entry = entries.find(e => e.id === entryId);
+      if (entry) {
+        setSelectedEntry(entry);
+      }
+    }
+  }, [entryId, entries, setSelectedEntry]);
+
+  // If entry not found, navigate back to home
+  if (entryId && !entries.find(e => e.id === entryId)) {
+    toast.error(`Entry ${entryId} not found`);
+    return <Navigate to={routes.home} />;
+  }
+
   /**
-   * Handle selecting an entry and navigate to its detailed view
+   * Handle selecting an entry and optionally close sidebar on mobile
    */
   const handleEntrySelect = (entry: LogEntry) => {
     setSelectedEntry(entry);
-    navigate(routes.entry(entry.id));
-    
     if (window.innerWidth < 768) {
       toggleSidebar();
     }
@@ -44,28 +61,15 @@ const Index = () => {
   };
 
   /**
-   * Handle thread selection and navigate to thread view
-   */
-  const handleThreadSelect = (thread: string | null) => {
-    if (thread) {
-      navigate(routes.thread(thread));
-    } else {
-      clearFilter();
-      navigate(routes.home);
-    }
-  };
-
-  /**
    * Handle navigation between entries
    */
   const handleNavigate = (entry: LogEntry) => {
     setSelectedEntry(entry);
-    navigate(routes.entry(entry.id));
     toast(`Viewing: ${entry.title}`);
   };
 
-  // Generate breadcrumbs for home path
-  const breadcrumbs = generateBreadcrumbs(routes.home);
+  // Generate breadcrumbs for current path
+  const breadcrumbs = generateBreadcrumbs(entryId ? `/entry/${entryId}` : routes.home);
 
   return (
     <div className="min-h-screen bg-gray-950 text-gray-200 flex flex-col">
@@ -112,7 +116,7 @@ const Index = () => {
           selectedEntry={selectedEntry}
           onEntrySelect={handleEntrySelect}
           threads={allThreads}
-          onThreadSelect={handleThreadSelect}
+          onThreadSelect={filterByThread}
           activeFilter={activeFilter}
         />
         
@@ -136,4 +140,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default EntryDetail;

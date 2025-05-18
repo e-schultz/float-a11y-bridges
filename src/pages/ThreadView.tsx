@@ -1,5 +1,6 @@
 
-import { useNavigate } from "react-router-dom";
+import { useParams, Navigate } from "react-router-dom";
+import { useEffect } from "react";
 import LogViewer from "@/components/LogViewer";
 import ThreadsSidebar from "@/components/ThreadsSidebar";
 import { Button } from "@/components/ui/button";
@@ -13,11 +14,13 @@ import Breadcrumb from "@/components/Navigation/Breadcrumb";
 import { generateBreadcrumbs, routes } from "@/routes";
 
 /**
- * Index page component displays the main application interface
- * with a sidebar for navigation and a log viewer for content
+ * ThreadView page component displays entries filtered by a specific thread
+ * with navigation options and breadcrumbs
  */
-const Index = () => {
-  const navigate = useNavigate();
+const ThreadView = () => {
+  const { threadName } = useParams<{ threadName: string }>();
+  const decodedThreadName = threadName ? decodeURIComponent(threadName) : null;
+  
   const {
     entries,
     selectedEntry,
@@ -26,17 +29,30 @@ const Index = () => {
     allThreads,
     filterByThread,
     clearFilter,
+    navigateToPrevious,
+    navigateToNext
   } = useLogEntries();
   
   const { sidebarOpen, toggleSidebar } = useSidebarState();
 
+  // Apply thread filter when component mounts or thread changes
+  useEffect(() => {
+    if (decodedThreadName) {
+      filterByThread(decodedThreadName);
+    }
+  }, [decodedThreadName, filterByThread]);
+
+  // If thread not found, navigate back to home
+  if (decodedThreadName && !allThreads.includes(decodedThreadName)) {
+    toast.error(`Thread ${decodedThreadName} not found`);
+    return <Navigate to={routes.home} />;
+  }
+
   /**
-   * Handle selecting an entry and navigate to its detailed view
+   * Handle selecting an entry and optionally close sidebar on mobile
    */
   const handleEntrySelect = (entry: LogEntry) => {
     setSelectedEntry(entry);
-    navigate(routes.entry(entry.id));
-    
     if (window.innerWidth < 768) {
       toggleSidebar();
     }
@@ -44,28 +60,17 @@ const Index = () => {
   };
 
   /**
-   * Handle thread selection and navigate to thread view
-   */
-  const handleThreadSelect = (thread: string | null) => {
-    if (thread) {
-      navigate(routes.thread(thread));
-    } else {
-      clearFilter();
-      navigate(routes.home);
-    }
-  };
-
-  /**
    * Handle navigation between entries
    */
   const handleNavigate = (entry: LogEntry) => {
     setSelectedEntry(entry);
-    navigate(routes.entry(entry.id));
     toast(`Viewing: ${entry.title}`);
   };
 
-  // Generate breadcrumbs for home path
-  const breadcrumbs = generateBreadcrumbs(routes.home);
+  // Generate breadcrumbs for current path
+  const breadcrumbs = generateBreadcrumbs(
+    decodedThreadName ? `/thread/${encodeURIComponent(decodedThreadName)}` : routes.home
+  );
 
   return (
     <div className="min-h-screen bg-gray-950 text-gray-200 flex flex-col">
@@ -112,12 +117,21 @@ const Index = () => {
           selectedEntry={selectedEntry}
           onEntrySelect={handleEntrySelect}
           threads={allThreads}
-          onThreadSelect={handleThreadSelect}
+          onThreadSelect={filterByThread}
           activeFilter={activeFilter}
         />
         
         <main className="flex-1 overflow-auto p-4">
           <Breadcrumb items={breadcrumbs} />
+          
+          <div className="mb-4">
+            <h2 className="text-xl font-semibold">
+              Thread: <span className="text-purple-400">{decodedThreadName}</span>
+            </h2>
+            <p className="text-gray-400 text-sm">
+              {entries.length} {entries.length === 1 ? 'entry' : 'entries'} in this thread
+            </p>
+          </div>
           
           {selectedEntry ? (
             <LogViewer 
@@ -127,7 +141,7 @@ const Index = () => {
             />
           ) : (
             <div className="h-full flex items-center justify-center text-gray-500">
-              Select an entry to view details
+              No entries found in this thread
             </div>
           )}
         </main>
@@ -136,4 +150,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default ThreadView;
