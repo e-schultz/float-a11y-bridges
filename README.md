@@ -1,73 +1,238 @@
-# Welcome to your Lovable project
 
-## Project info
+# FLOAT Continuity System
 
-**URL**: https://lovable.dev/projects/4a15c65c-e73d-41c5-b3a8-76afa726b8f2
+A schema-driven UI system for healthcare continuity management, built with React, TypeScript, and modern web technologies.
 
-## How can I edit this code?
+## Overview
 
-There are several ways of editing your application.
+The FLOAT Continuity System is designed around the philosophy that "form fields are moments of care" - touchpoints where practitioners interact with patients through technology. The system emphasizes **integration over conquest** and follows a **"shacks not cathedrals"** approach, building modular, focused, and adaptable components.
 
-**Use Lovable**
+## Core Features
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/4a15c65c-e73d-41c5-b3a8-76afa726b8f2) and start prompting.
+### 🔍 Log Entry Viewer
+- Dark-themed viewer for various log entries (bridges, threads, concepts)
+- Tabbed navigation for content organization
+- Thread-based filtering and navigation
+- Previous/next entry navigation with keyboard shortcuts
 
-Changes made via Lovable will be committed automatically to this repo.
+### 🎛️ Schema-Driven UI System
+- Dynamic UI generation based on JSON schemas
+- Support for multiple field types (text, number, select, boolean, badges, etc.)
+- Real-time schema editing and preview
+- Pre-built schema examples for common use cases
 
-**Use your preferred IDE**
+### 🧭 Intelligent Navigation
+- Breadcrumb navigation with proper hierarchy
+- Direct entry access via URL parameters
+- Thread-specific views and filtering
+- Consistent routing patterns across the application
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### 📱 Responsive Design
+- Mobile-first approach with collapsible sidebar
+- Touch-friendly interface elements
+- Consistent design system with dark theme
+- Accessible color contrast and keyboard navigation
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## Quick Start
 
-Follow these steps:
+### Prerequisites
+- Node.js 18+ and npm
+- Modern web browser with ES6+ support
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
+### Installation
+
+```bash
+# Clone the repository
 git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
 cd <YOUR_PROJECT_NAME>
 
-# Step 3: Install the necessary dependencies.
-npm i
+# Install dependencies
+npm install
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start development server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+The application will be available at `http://localhost:5173`
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Building for Production
 
-**Use GitHub Codespaces**
+```bash
+# Create production build
+npm run build
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+# Preview production build
+npm run preview
+```
 
-## What technologies are used for this project?
+## Project Structure
 
-This project is built with:
+```
+src/
+├── components/           # Reusable UI components
+│   ├── Layout/          # Layout components (AppLayout, AppHeader)
+│   ├── LogViewer/       # Log viewing components
+│   ├── Navigation/      # Navigation components
+│   ├── ThreadsSidebar/  # Sidebar components
+│   └── ui/              # Shadcn/ui components
+├── data/                # Sample data and mock entries
+├── hooks/               # Custom React hooks
+├── lib/                 # Utility libraries and schema examples
+├── pages/               # Page components
+├── types/               # TypeScript type definitions
+└── routes.ts            # Centralized route definitions
+```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## Key Concepts
 
-## How can I deploy this project?
+### Form Fields as Moments of Care
+Every form field in the system is designed as a cognitive interface - a moment where care can be delivered. This philosophy drives the schema-driven approach, allowing dynamic reconfiguration based on context.
 
-Simply open [Lovable](https://lovable.dev/projects/4a15c65c-e73d-41c5-b3a8-76afa726b8f2) and click on Share -> Publish.
+### Integration vs. Conquest
+The system supports existing workflows rather than forcing rigid processes. By separating schema (data/structure) from presentation (UI components), we enable flexible adaptation to different contexts.
 
-## Can I connect a custom domain to my Lovable project?
+### Shacks not Cathedrals
+Components are built to be modular, focused, and adaptable. Each piece serves a specific purpose and can be easily modified or replaced without affecting the entire system.
 
-Yes, you can!
+## Schema-Driven UI
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+The system uses JSON schemas to define UI components dynamically:
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+```typescript
+const patientFormSchema: UISchema = {
+  id: "patient-form",
+  title: "Patient Information",
+  fields: [
+    {
+      id: "name",
+      type: "text",
+      label: "Full Name",
+      required: true
+    },
+    {
+      id: "age",
+      type: "number",
+      label: "Age"
+    }
+  ]
+};
+```
+
+Supported field types:
+- `text` - Text input fields
+- `number` - Numeric input fields
+- `select` - Dropdown selections
+- `boolean` - Yes/No toggles
+- `badge` - Display badges
+- `heading` - Section headings
+- `paragraph` - Text content
+- `separator` - Visual separators
+
+## Technology Stack
+
+- **Frontend**: React 18 with TypeScript
+- **Styling**: Tailwind CSS with custom design tokens
+- **UI Components**: Shadcn/ui component library
+- **State Management**: React hooks with custom state management
+- **Routing**: React Router v6
+- **Data Fetching**: TanStack Query (React Query)
+- **Build Tool**: Vite
+- **Icons**: Lucide React
+
+## Development
+
+### Code Organization
+- Components follow single responsibility principle
+- Custom hooks encapsulate complex state logic
+- Types are centralized in dedicated files
+- Consistent naming conventions throughout
+
+### State Management
+- Local component state for UI interactions
+- Custom hooks for complex business logic
+- Context providers for widely shared state
+- React Query for server state management
+
+### Styling
+- Utility-first approach with Tailwind CSS
+- Consistent color palette and spacing
+- Dark theme with purple/pink accents
+- Responsive design patterns
+
+## API Integration
+
+The system is designed to work with RESTful APIs and supports:
+- Real-time data fetching with React Query
+- Optimistic updates for better UX
+- Error handling and retry logic
+- Background data synchronization
+
+## Testing
+
+### Running Tests
+```bash
+# Run unit tests
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+
+# Run tests with coverage
+npm run test:coverage
+```
+
+### Testing Strategy
+- Unit tests for utility functions
+- Component tests for UI interactions
+- Integration tests for user workflows
+- End-to-end tests for critical paths
+
+## Deployment
+
+### Using Lovable
+The easiest way to deploy is through Lovable:
+1. Open your project in Lovable
+2. Click "Share" → "Publish"
+3. Your app will be deployed automatically
+
+### Manual Deployment
+```bash
+# Build the application
+npm run build
+
+# Deploy the dist/ folder to your hosting provider
+```
+
+## Contributing
+
+### Development Workflow
+1. Create feature branch from main
+2. Make changes following coding standards
+3. Add tests for new functionality
+4. Update documentation as needed
+5. Submit pull request for review
+
+### Coding Standards
+- Use TypeScript for all new code
+- Follow React best practices
+- Write descriptive commit messages
+- Add JSDoc comments for complex functions
+
+## Architecture
+
+For detailed architectural information, see [ARCHITECTURE.md](./ARCHITECTURE.md)
+
+## Schema Guide
+
+For comprehensive schema documentation, see [SCHEMA_GUIDE.md](./SCHEMA_GUIDE.md)
+
+## License
+
+This project is proprietary software developed for healthcare continuity management.
+
+## Support
+
+For technical support or questions:
+- Review the documentation in this repository
+- Check the [implementation plan](./implementation.md)
+- Refer to component-specific documentation in source files
